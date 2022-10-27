@@ -37,8 +37,8 @@ const App = () => (
 );
 
 const AuthProvider = ({ children }) => {
-  const currentUser = localStorage.getItem('user') ?? null;
-  const [user, setUser] = useState(currentUser);
+  const currentUser = localStorage.getItem('user');
+  const [user, setUser] = useState(currentUser ? JSON.parse(currentUser) : null);
   const navigate = useNavigate();
   const login = async (userData, setErrorOutput) => {
     try {
