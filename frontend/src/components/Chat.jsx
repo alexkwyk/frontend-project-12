@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import { selectors as channelsSelectors, setCurrentChannelId } from '../slices/channelsSlice.js';
 import { selectors as messagesSelectors, addMessage } from '../slices/messagesSlice.js';
 import fetchData from '../slices/fetchThunk.js';
+import Header from './Header.jsx';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const Chat = () => {
 
   return (
     <div className="h-100 d-flex flex-column">
-      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white" />
+      <Header />
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
         <div className="row h-100 flex-md-row">
           <div className="col-4 col-md-2 bg-light border-end px-0">
@@ -79,7 +80,7 @@ const Chat = () => {
             </Nav>
           </div>
           <div className="col d-flex flex-column bg-white px-0">
-            <div className="bg-light mb-4 p-3 small">
+            <div className="bg-light mb-4 p-3 small shadow-sm">
               <p className="m-0">
                 <b>
                   #

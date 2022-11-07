@@ -40,13 +40,15 @@ const AuthProvider = ({ children }) => {
   const currentUser = localStorage.getItem('user');
   const [user, setUser] = useState(currentUser ? JSON.parse(currentUser) : null);
   const navigate = useNavigate();
+  const location = useLocation();
+
   const login = async (userData, setErrorOutput) => {
     try {
       const response = await axios.post(routes.loginPath(), userData);
       setUser(response.data);
       localStorage.setItem('user', JSON.stringify(response.data));
       setErrorOutput(null);
-      navigate('/');
+      navigate('/', { from: location });
     } catch {
       setErrorOutput('Неверные имя пользователя или пароль');
     }
@@ -58,6 +60,8 @@ const AuthProvider = ({ children }) => {
 
   const signout = () => {
     setUser(null);
+    localStorage.removeItem('user');
+    navigate('/login', { from: location });
   };
 
   const value = {

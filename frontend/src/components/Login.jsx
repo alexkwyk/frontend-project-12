@@ -1,20 +1,17 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Card } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AuthContext from '../contexts/index.js';
 import loginImage from '../assets/loginImage.jpg';
+import Header from './Header.jsx';
 
 const loginSchema = Yup.object().shape({
   username: Yup.string().required(),
   password: Yup.string().required(),
 });
 
-const Login = (props) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+const Login = () => {
   const auth = useContext(AuthContext);
   const [errorOutput, setErrorOutput] = useState(null);
   const formik = useFormik({
@@ -29,6 +26,7 @@ const Login = (props) => {
   });
   return (
     <div className="container-fluid h-100">
+      <Header />
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-md-8 col-xxl-6">
           <Card>

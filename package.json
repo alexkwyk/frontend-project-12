@@ -4,6 +4,7 @@
   "description": "Real-time chat",
   "main": "index.js",
   "scripts": {
+    "develop": "npx start-server | npm run start --prefix frontend",
     "start": "npx start-server -s ./frontend/build",
     "build": "npm run build --prefix frontend",
     "test": "echo \"Error: no test specified\" && exit 1",
