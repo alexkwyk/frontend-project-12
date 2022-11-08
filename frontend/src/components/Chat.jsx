@@ -1,19 +1,36 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
+import { io } from 'socket.io-client';
 import fetchData from '../slices/fetchThunk.js';
 import Header from './Header.jsx';
 import Channels from './Channels.jsx';
 import MessageForm from './MessageForm.jsx';
 import Messages from './Messages.jsx';
+import { addMessage } from '../slices/messagesSlice.js';
+import AuthContext from '../contexts/index.js';
 
 const Chat = () => {
   const dispatch = useDispatch();
+  const auth = useContext(AuthContext);
+  const { token } = auth.user;
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    const { token } = JSON.parse(user);
     dispatch(fetchData(token));
-  }, [dispatch]);
+  }, [dispatch, token]);
+
+  const socket = io();
+  socket.on('newMessage', (payload) => {
+    dispatch(addMessage(payload));
+  });
+  socket.on('newChannel', (payload) => {
+    console.log(payload); // { id: 6, name: "new channel", removable: true }
+  });
+  socket.on('removeChannel', (payload) => {
+    console.log(payload); // { id: 6 };
+  });
+  socket.on('renameChannel', (payload) => {
+    console.log(payload); // { id: 7, name: "new name channel", removable: true }
+  });
 
   return (
     <div className="h-100 d-flex flex-column">
@@ -25,7 +42,7 @@ const Chat = () => {
           </div>
           <div className="col d-flex flex-column bg-white px-0">
             <Messages />
-            <MessageForm />
+            <MessageForm socket={socket} />
           </div>
         </div>
       </div>

@@ -1,32 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useSelector, useDispatch } from 'react-redux';
+import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Button,
   Form,
   InputGroup,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { selectors as messagesSelectors, addMessage } from '../slices/messagesSlice.js';
+import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
+import AuthContext from '../contexts/index.js';
 
-const MessageForm = () => {
-  const dispatch = useDispatch();
+const MessageForm = ({ socket }) => {
   const { currentChannelId } = useSelector((state) => state.channels);
   const messagesCount = useSelector(messagesSelectors.selectTotal);
+  const auth = useContext(AuthContext);
+  const { username } = auth.user;
 
   const formik = useFormik({
     initialValues: {
       userMessage: '',
     },
     onSubmit: (values) => {
-      const { username } = JSON.parse(localStorage.getItem('user'));
       const message = {
         id: messagesCount + 1,
         body: values.userMessage,
         username,
         channelId: currentChannelId,
       };
-      dispatch(addMessage(message));
-      formik.values.userMessage = '';
+      socket.emit('newMessage', message, (response) => {
+        if (response.status === 'ok') {
+          formik.resetForm();
+        }
+      });
     },
   });
 
