@@ -26,7 +26,7 @@ const Messages = () => {
           сообщение
         </span>
       </div>
-      <div className="px-5">
+      <div className="px-5 overflow-auto">
         {messages.map(({ username, body, id }) => (
           <p
             key={id}

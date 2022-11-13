@@ -29,7 +29,7 @@ const Chat = () => {
       dispatch(addChannel(payload));
     });
     socket.on('removeChannel', (payload) => {
-      dispatch(removeChannel({ id: payload }));
+      dispatch(removeChannel(payload.id));
     });
     socket.on('renameChannel', (payload) => {
       dispatch(renameChannel(payload));
@@ -45,7 +45,7 @@ const Chat = () => {
           <div className="col-4 col-md-2 bg-light border-end px-0">
             <Channels />
           </div>
-          <div className="col d-flex flex-column bg-white px-0">
+          <div className="col h-100 d-flex flex-column bg-white px-0 ">
             <Messages />
             <MessageForm socket={socket} />
           </div>
