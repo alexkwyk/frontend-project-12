@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <Navbar bg="white" className="shadow-sm">
       <Container>
-        <Navbar.Brand>Hexlet Chat</Navbar.Brand>
+        <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
         {isAuthorized && (
           <Button
             onClick={handleClick}

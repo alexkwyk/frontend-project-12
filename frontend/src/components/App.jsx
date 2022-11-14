@@ -13,6 +13,7 @@ import routes from '../routes.js';
 import AuthContext from '../contexts/index.js';
 import Chat from './Chat.jsx';
 import Login from './Login.jsx';
+import Registration from './Registration.jsx';
 import NotFound from './NotFound.jsx';
 
 const App = () => (
@@ -30,6 +31,7 @@ const App = () => (
           />
           <Route path="/login" element={<Login />} />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/signup" element={<Registration />} />
         </Route>
       </Routes>
     </AuthProvider>
@@ -54,8 +56,18 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const signin = (newUser) => {
-    setUser(newUser);
+  const signup = async (userData, setErrorOutput) => {
+    try {
+      const response = await axios.post(routes.signupPath(), userData);
+      setUser(response.data);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      setErrorOutput(null);
+      navigate('/', { from: location });
+    } catch (e) {
+      if (e.response.status === 409) {
+        setErrorOutput('Такое имя пользователя уже существует');
+      }
+    }
   };
 
   const signout = () => {
@@ -65,7 +77,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    user, login, signin, signout,
+    user, login, signup, signout,
   };
 
   return (
