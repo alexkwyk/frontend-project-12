@@ -16,7 +16,7 @@ import Login from './Login.jsx';
 import Registration from './Registration.jsx';
 import NotFound from './NotFound.jsx';
 
-const App = () => (
+const App = ({ socket }) => (
   <BrowserRouter>
     <AuthProvider>
       <Routes>
@@ -25,7 +25,7 @@ const App = () => (
             path="/"
             element={(
               <RequireAuth>
-                <Chat />
+                <Chat socket={socket} />
               </RequireAuth>
             )}
           />
@@ -44,28 +44,28 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const login = async (userData, setErrorOutput) => {
+  const login = async (userData, setAuthError) => {
     try {
       const response = await axios.post(routes.loginPath(), userData);
       setUser(response.data);
       localStorage.setItem('user', JSON.stringify(response.data));
-      setErrorOutput(null);
+      setAuthError(false);
       navigate('/', { from: location });
     } catch {
-      setErrorOutput('Неверные имя пользователя или пароль');
+      setAuthError(true);
     }
   };
 
-  const signup = async (userData, setErrorOutput) => {
+  const signup = async (userData, setAuthError) => {
     try {
       const response = await axios.post(routes.signupPath(), userData);
       setUser(response.data);
       localStorage.setItem('user', JSON.stringify(response.data));
-      setErrorOutput(null);
+      setAuthError(false);
       navigate('/', { from: location });
     } catch (e) {
       if (e.response.status === 409) {
-        setErrorOutput('Такое имя пользователя уже существует');
+        setAuthError(true);
       }
     }
   };

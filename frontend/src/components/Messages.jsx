@@ -1,13 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectors as channelsSelectors } from '../slices/channelsSlice.js';
 import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
 
 const Messages = () => {
+  const { t } = useTranslation();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const messages = useSelector(messagesSelectors.selectAll)
     .filter((item) => item.channelId === currentChannelId);
+  const messagesCount = messages.length;
 
   return (
     <>
@@ -21,9 +24,9 @@ const Messages = () => {
           </b>
         </p>
         <span className="text-muted">
-          {messages.length}
+          {messagesCount}
           {' '}
-          сообщение
+          {t('messages.count', { count: messagesCount })}
         </span>
       </div>
       <div className="px-5 overflow-auto">

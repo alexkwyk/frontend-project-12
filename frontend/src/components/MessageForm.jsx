@@ -6,11 +6,13 @@ import {
   Form,
   InputGroup,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
 import AuthContext from '../contexts/index.js';
 
 const MessageForm = ({ socket }) => {
+  const { t } = useTranslation();
   const { currentChannelId } = useSelector((state) => state.channels);
   const messagesCount = useSelector(messagesSelectors.selectTotal);
 
@@ -63,7 +65,7 @@ const MessageForm = ({ socket }) => {
             className="rounded-0 mx-1 p-2 h-100 rounded-2"
             disabled={formik.values.userMessage.length === 0}
           >
-            Отправить
+            {t('messages.send')}
           </Button>
         </InputGroup>
       </Form>

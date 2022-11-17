@@ -5,12 +5,13 @@ import {
   ButtonGroup,
   Dropdown,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, setCurrentChannelId } from '../slices/channelsSlice.js';
 import { openModal } from '../slices/modalSlice.js';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-
   const changeChannel = ({ id }) => () => dispatch(setCurrentChannelId(id));
   const addChannel = () => dispatch(openModal({ type: 'adding' }));
   const removeChannel = ({ id }) => () => dispatch(openModal({ type: 'removing', target: { id } }));
@@ -22,7 +23,7 @@ const Channels = () => {
   return (
     <Nav variant="pills" defaultActiveKey="1" className="flex-column">
       <div className="d-flex justify-content-between py-4 px-3">
-        <span>Каналы</span>
+        <span>{t('channels.title')}</span>
         <Button
           variant="outline-primary"
           className="py-0 px-1"
@@ -53,12 +54,12 @@ const Channels = () => {
                 <Dropdown.Item
                   onClick={removeChannel(item)}
                 >
-                  Удалить
+                  {t('channels.delete')}
                 </Dropdown.Item>
                 <Dropdown.Item
                   onClick={renameChannel(item)}
                 >
-                  Переименовать
+                  {t('channels.rename')}
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

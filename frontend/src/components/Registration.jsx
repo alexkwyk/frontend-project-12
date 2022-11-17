@@ -1,30 +1,32 @@
 import { useContext, useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import AuthContext from '../contexts/index.js';
 import registrationImage from '../assets/registrationImage.jpg';
 import Header from './Header.jsx';
 
-const loginSchema = yup.object().shape({
-  username: yup
-    .string()
-    .required('Обязательное поле')
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов'),
-  password: yup
-    .string()
-    .required('Обязательное поле')
-    .min(6, 'Не менее 6 символов'),
-  passwordConfirm: yup
-    .string()
-    .required('Обязательное поле')
-    .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
-});
-
 const Registration = () => {
   const auth = useContext(AuthContext);
-  const [errorOutput, setErrorOutput] = useState(null);
+  const [authError, setAuthError] = useState(null);
+  const { t } = useTranslation();
+
+  const loginSchema = yup.object().shape({
+    username: yup
+      .string()
+      .required('registration.required')
+      .min(3, 'registration.usernameMinMax')
+      .max(20, 'registration.usernameMinMax'),
+    password: yup
+      .string()
+      .required('registration.required')
+      .min(6, 'registration.passwordMin'),
+    passwordConfirm: yup
+      .string()
+      .required('registration.required')
+      .oneOf([yup.ref('password')], 'registration.passwordsNotMatch'),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +36,7 @@ const Registration = () => {
     },
     validationSchema: loginSchema,
     onSubmit: async ({ username, password }) => {
-      auth.signup({ username, password }, setErrorOutput);
+      auth.signup({ username, password }, setAuthError);
     },
     validateOnMount: true,
   });
@@ -65,7 +67,7 @@ const Registration = () => {
                   onSubmit={formik.handleSubmit}
                 >
                   <h1 className="text-center mb-5">
-                    Регистрация
+                    {t('registration.title')}
                   </h1>
                   <div className="form-floating mb-3">
                     <Form.Control
@@ -74,19 +76,19 @@ const Registration = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values.username}
-                      isInvalid={!!errorOutput
+                      isInvalid={authError
                         || (!!formik.errors.username && formik.touched.username)}
                       name="username"
-                      placeholder="Никнейм"
+                      placeholder={t('registration.username')}
                     />
-                    <Form.Label>Никнейм</Form.Label>
-                    {(!!errorOutput
+                    <Form.Label>{t('registration.username')}</Form.Label>
+                    {(authError
                       || (!!formik.errors.username && formik.touched.username)
                     )
                       && (
                         <Form.Control.Feedback type="invalid" tooltip>
-                          {errorOutput}
-                          {formik.errors.username}
+                          {authError && t('errors.userAlreadyExists')}
+                          {t(formik.errors.username)}
                         </Form.Control.Feedback>
                       )}
                   </div>
@@ -99,12 +101,12 @@ const Registration = () => {
                       value={formik.values.password}
                       isInvalid={!!formik.errors.password && formik.touched.password}
                       name="password"
-                      placeholder="Пароль"
+                      placeholder={t('registration.password')}
                     />
-                    <Form.Label>Пароль</Form.Label>
+                    <Form.Label>{t('registration.password')}</Form.Label>
                     {(!!formik.errors.password && formik.touched.password) && (
                       <Form.Control.Feedback type="invalid" tooltip>
-                        {formik.errors.password}
+                        {t(formik.errors.password)}
                       </Form.Control.Feedback>
                     )}
                   </div>
@@ -117,12 +119,12 @@ const Registration = () => {
                       value={formik.values.passwordConfirm}
                       isInvalid={!!formik.errors.passwordConfirm && formik.touched.passwordConfirm}
                       name="passwordConfirm"
-                      placeholder="Подтвердите пароль"
+                      placeholder={t('registration.passwordConfirm')}
                     />
-                    <Form.Label>Подтвердите пароль</Form.Label>
+                    <Form.Label>{t('registration.passwordConfirm')}</Form.Label>
                     {(!!formik.errors.passwordConfirm && formik.touched.passwordConfirm) && (
                       <Form.Control.Feedback type="invalid" tooltip>
-                        {formik.errors.passwordConfirm}
+                        {t(formik.errors.passwordConfirm)}
                       </Form.Control.Feedback>
                     )}
                   </div>
@@ -132,7 +134,7 @@ const Registration = () => {
                     variant={submitDisabled ? 'outline-primary' : 'primary'}
                     disabled={submitDisabled}
                   >
-                    Войти
+                    {t('registration.submit')}
                   </Button>
                 </Form>
               </Card.Body>

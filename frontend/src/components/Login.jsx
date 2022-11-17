@@ -1,29 +1,26 @@
 import { useContext, useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import AuthContext from '../contexts/index.js';
 import loginImage from '../assets/loginImage.jpg';
 import Header from './Header.jsx';
 
-const loginSchema = Yup.object().shape({
-  username: Yup.string().required(),
-  password: Yup.string().required(),
-});
-
 const Login = () => {
   const auth = useContext(AuthContext);
-  const [errorOutput, setErrorOutput] = useState(null);
+  const [authError, setAuthError] = useState(false);
+  const { t } = useTranslation();
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    validationSchema: loginSchema,
     onSubmit: async ({ username, password }) => {
-      auth.login({ username, password }, setErrorOutput);
+      auth.login({ username, password }, setAuthError);
     },
   });
+
   return (
     <div className="d-flex flex-column h-100">
       <Header />
@@ -46,7 +43,7 @@ const Login = () => {
                   onSubmit={formik.handleSubmit}
                 >
                   <h1 className="text-center mb-5">
-                    Войти
+                    {t('login.title')}
                   </h1>
                   <div className="form-floating mb-3">
                     <Form.Control
@@ -54,11 +51,12 @@ const Login = () => {
                       type="username"
                       onChange={formik.handleChange}
                       value={formik.values.username}
-                      isInvalid={!!errorOutput}
+                      isInvalid={authError}
                       name="username"
-                      placeholder="Никнейм"
+                      placeholder={t('login.username')}
+                      required
                     />
-                    <Form.Label>Никнейм</Form.Label>
+                    <Form.Label>{t('login.username')}</Form.Label>
                   </div>
                   <div className="form-floating mb-4">
                     <Form.Control
@@ -66,14 +64,15 @@ const Login = () => {
                       type="password"
                       onChange={formik.handleChange}
                       value={formik.values.password}
-                      isInvalid={!!errorOutput}
+                      isInvalid={authError}
                       name="password"
-                      placeholder="Пароль"
+                      placeholder={t('login.password')}
+                      required
                     />
-                    <Form.Label>Пароль</Form.Label>
-                    {errorOutput && (
+                    <Form.Label>{t('login.password')}</Form.Label>
+                    {authError && (
                       <Form.Control.Feedback type="invalid" tooltip>
-                        {errorOutput}
+                        {t('errors.invalidLoginPassword')}
                       </Form.Control.Feedback>
                     )}
                   </div>
@@ -81,15 +80,15 @@ const Login = () => {
                     type="submit"
                     variant="outline-primary w-100"
                   >
-                    Войти
+                    {t('login.submit')}
                   </Button>
                 </Form>
               </Card.Body>
               <Card.Footer className="p-3">
                 <div className="text-center">
-                  Нет аккаунта?
+                  {t('login.footerMessage')}
                   {' '}
-                  <a href="/signup">Регистрация</a>
+                  <a href="/signup">{t('login.footerLink')}</a>
                 </div>
               </Card.Footer>
             </Card>

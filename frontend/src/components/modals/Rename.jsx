@@ -1,11 +1,13 @@
 import { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import { Modal, Form, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { selectors } from '../../slices/channelsSlice.js';
 
 const Rename = ({ socket, handleClose }) => {
+  const { t } = useTranslation();
   const input = useRef();
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
   const channelName = useSelector((state) => state.modal.target.name);
@@ -15,11 +17,11 @@ const Rename = ({ socket, handleClose }) => {
 
   const channelSchema = Yup.object().shape({
     name: Yup.string()
-      .max(13, 'Слишком длинное название')
-      .required('Канал должен иметь название')
+      .max(13, 'modal.channelMax')
+      .required('modal.required')
       .notOneOf(
         channelNames,
-        'Такой канал уже существует',
+        'modal.channelAlreadyExtists',
       ),
   });
 
@@ -49,7 +51,9 @@ const Rename = ({ socket, handleClose }) => {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>
+          {t('modal.renameChannel')}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -66,14 +70,14 @@ const Rename = ({ socket, handleClose }) => {
               ref={input}
             />
             <Form.Control.Feedback type="invalid">
-              {(formik.errors.name)}
+              {t(formik.errors.name)}
             </Form.Control.Feedback>
             <div className="mt-3 d-flex justify-content-end">
               <Button className="me-2" variant="secondary" onClick={handleClose}>
-                Отменить
+                {t('modal.cancelSubmit')}
               </Button>
               <Button variant="primary" type="submit" disabled={!!formik.errors.name || sumbitDisabled}>
-                Отправить
+                {t('modal.sendSubmit')}
               </Button>
             </div>
           </Form.Group>
