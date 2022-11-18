@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const Remove = ({ socket, handleClose }) => {
   const { t } = useTranslation();
@@ -10,12 +11,18 @@ const Remove = ({ socket, handleClose }) => {
 
   const handleRemove = () => {
     setSubmitDisabled(true);
-    socket.emit('removeChannel', { id }, (response) => {
-      if (response.status === 'ok') {
-        setSubmitDisabled(false);
-        handleClose();
-      }
-    });
+    socket
+      .timeout(5000)
+      .emit('removeChannel', { id }, (err, response) => {
+        if (err) {
+          toast.error(t('toast.networkError'));
+          setSubmitDisabled(false);
+        } else if (response.status === 'ok') {
+          setSubmitDisabled(false);
+          handleClose();
+          toast.success(t('toast.removeChannel'));
+        }
+      });
   };
 
   return (

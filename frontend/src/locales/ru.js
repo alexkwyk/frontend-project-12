@@ -55,5 +55,11 @@ export default {
       message: 'Страница не найдена',
       link: 'Перейти на главную',
     },
+    toast: {
+      addChannel: 'Канал создан',
+      renameChannel: 'Канал переименован',
+      removeChannel: 'Канал удален',
+      networkError: 'Ошибка соединения',
+    },
   },
 };

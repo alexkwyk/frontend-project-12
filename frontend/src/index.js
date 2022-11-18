@@ -7,6 +7,8 @@ import { io } from 'socket.io-client';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import i18next from 'i18next';
 
+import { ToastContainer } from 'react-toastify';
+
 import resources from './locales/index.js';
 
 import store from './slices/index.js';
@@ -18,7 +20,7 @@ import {
 } from './slices/channelsSlice.js';
 
 import App from './components/App.jsx';
-
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const i18n = i18next.createInstance();
@@ -50,6 +52,7 @@ root.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
       <App socket={socket} />
+      <ToastContainer />
     </I18nextProvider>
   </Provider>,
 );

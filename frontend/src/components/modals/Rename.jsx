@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { selectors } from '../../slices/channelsSlice.js';
 
@@ -30,16 +31,22 @@ const Rename = ({ socket, handleClose }) => {
     validationSchema: channelSchema,
     onSubmit: (values) => {
       setSubmitDisabled(true);
-      socket.emit(
-        'renameChannel',
-        { id: channelId, name: values.name },
-        (response) => {
-          if (response.status === 'ok') {
-            setSubmitDisabled(false);
-            handleClose();
-          }
-        },
-      );
+      socket
+        .timeout(5000)
+        .emit(
+          'renameChannel',
+          { id: channelId, name: values.name },
+          (err, response) => {
+            if (err) {
+              toast.error(t('toast.networkError'));
+              setSubmitDisabled(false);
+            } else if (response.status === 'ok') {
+              toast.success(t('toast.removeChannel'));
+              setSubmitDisabled(false);
+              handleClose();
+            }
+          },
+        );
     },
     validateOnBlur: false,
   });

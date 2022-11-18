@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { selectors, setCurrentChannelId } from '../../slices/channelsSlice.js';
@@ -31,13 +32,19 @@ const Add = ({ socket, handleClose }) => {
     validationSchema: channelSchema,
     onSubmit: (values) => {
       setSubmitDisabled(true);
-      socket.emit('newChannel', { name: values.name }, (response) => {
-        if (response.status === 'ok') {
-          dispatch(setCurrentChannelId(lastChannelId + 1));
-          setSubmitDisabled(false);
-          handleClose();
-        }
-      });
+      socket
+        .timeout(5000)
+        .emit('newChannel', { name: values.name }, (err, response) => {
+          if (err) {
+            toast.error(t('toast.networkError'));
+            setSubmitDisabled(false);
+          } else if (response.status === 'ok') {
+            dispatch(setCurrentChannelId(lastChannelId + 1));
+            setSubmitDisabled(false);
+            handleClose();
+            toast.success(t('toast.addChannel'));
+          }
+        });
     },
   });
 

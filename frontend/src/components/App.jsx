@@ -8,7 +8,10 @@ import {
   useNavigate,
   Navigate,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import axios from 'axios';
+
 import routes from '../routes.js';
 import AuthContext from '../contexts/index.js';
 import Chat from './Chat.jsx';
@@ -43,6 +46,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(currentUser ? JSON.parse(currentUser) : null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const login = async (userData, setAuthError) => {
     try {
@@ -51,8 +55,12 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(response.data));
       setAuthError(false);
       navigate('/', { from: location });
-    } catch {
-      setAuthError(true);
+    } catch (e) {
+      if (e.response?.status === 401) {
+        setAuthError(true);
+        return;
+      }
+      toast.error(t('toast.networkError'));
     }
   };
 
@@ -64,9 +72,11 @@ const AuthProvider = ({ children }) => {
       setAuthError(false);
       navigate('/', { from: location });
     } catch (e) {
-      if (e.response.status === 409) {
+      if (e.response?.status === 409) {
         setAuthError(true);
+        return;
       }
+      toast.error(t('toast.networkError'));
     }
   };
 
