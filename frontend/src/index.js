@@ -8,7 +8,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import i18next from 'i18next';
 
 import { ToastContainer } from 'react-toastify';
-
+import * as filter from 'leo-profanity';
 import resources from './locales/index.js';
 
 import store from './slices/index.js';
@@ -46,6 +46,8 @@ socket.on('removeChannel', (payload) => {
 socket.on('renameChannel', (payload) => {
   store.dispatch(renameChannel(payload));
 });
+
+filter.loadDictionary('ru');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

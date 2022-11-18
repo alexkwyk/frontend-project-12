@@ -8,6 +8,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import * as filter from 'leo-profanity';
 import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
 import AuthContext from '../contexts/index.js';
 
@@ -28,7 +29,7 @@ const MessageForm = ({ socket }) => {
     onSubmit: (values) => {
       const message = {
         id: messagesCount + 1,
-        body: values.userMessage,
+        body: filter.clean(values.userMessage, '*'),
         username,
         channelId: currentChannelId,
       };
