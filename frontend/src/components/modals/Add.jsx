@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useRollbar } from '@rollbar/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { selectors, setCurrentChannelId } from '../../slices/channelsSlice.js';
 
 const Add = ({ socket, handleClose }) => {
+  const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
@@ -38,6 +40,7 @@ const Add = ({ socket, handleClose }) => {
           if (err) {
             toast.error(t('toast.networkError'));
             setSubmitDisabled(false);
+            rollbar.error(err);
           } else if (response.status === 'ok') {
             dispatch(setCurrentChannelId(lastChannelId + 1));
             setSubmitDisabled(false);

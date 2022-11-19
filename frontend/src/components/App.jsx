@@ -8,9 +8,10 @@ import {
   useNavigate,
   Navigate,
 } from 'react-router-dom';
+import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import { useRollbar } from '@rollbar/react';
 
 import routes from '../routes.js';
 import AuthContext from '../contexts/index.js';
@@ -47,6 +48,7 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const rollbar = useRollbar();
 
   const login = async (userData, setAuthError) => {
     try {
@@ -56,6 +58,7 @@ const AuthProvider = ({ children }) => {
       setAuthError(false);
       navigate('/', { from: location });
     } catch (e) {
+      rollbar.error(e);
       if (e.response?.status === 401) {
         setAuthError(true);
         return;
@@ -72,6 +75,7 @@ const AuthProvider = ({ children }) => {
       setAuthError(false);
       navigate('/', { from: location });
     } catch (e) {
+      rollbar.error(e);
       if (e.response?.status === 409) {
         setAuthError(true);
         return;

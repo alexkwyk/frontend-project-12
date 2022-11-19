@@ -5,7 +5,7 @@ export default {
       userAlreadyExists: 'Такое имя пользователя уже существует',
     },
     login: {
-      username: 'Имя пользователя',
+      username: 'Ваш ник',
       password: 'Пароль',
       title: 'Войти',
       submit: 'Войти',

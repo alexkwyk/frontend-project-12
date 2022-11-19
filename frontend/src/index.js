@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+
 import { io } from 'socket.io-client';
 
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -9,6 +11,7 @@ import i18next from 'i18next';
 
 import { ToastContainer } from 'react-toastify';
 import * as filter from 'leo-profanity';
+
 import resources from './locales/index.js';
 
 import store from './slices/index.js';
@@ -49,12 +52,21 @@ socket.on('renameChannel', (payload) => {
 
 filter.loadDictionary('ru');
 
+const rollbarConfig = {
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+  environment: 'production',
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <I18nextProvider i18n={i18n}>
-      <App socket={socket} />
-      <ToastContainer />
-    </I18nextProvider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <I18nextProvider i18n={i18n}>
+          <App socket={socket} />
+          <ToastContainer />
+        </I18nextProvider>
+      </ErrorBoundary>
+    </RollbarProvider>
   </Provider>,
 );

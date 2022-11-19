@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useRollbar } from '@rollbar/react';
 import * as Yup from 'yup';
 import { selectors } from '../../slices/channelsSlice.js';
 
 const Rename = ({ socket, handleClose }) => {
+  const rollbar = useRollbar();
   const { t } = useTranslation();
   const input = useRef();
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
@@ -38,6 +40,7 @@ const Rename = ({ socket, handleClose }) => {
           { id: channelId, name: values.name },
           (err, response) => {
             if (err) {
+              rollbar.error(err);
               toast.error(t('toast.networkError'));
               setSubmitDisabled(false);
             } else if (response.status === 'ok') {
