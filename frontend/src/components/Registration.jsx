@@ -38,12 +38,14 @@ const Registration = () => {
     onSubmit: async ({ username, password }) => {
       auth.signup({ username, password }, setAuthError);
     },
-    validateOnMount: true,
   });
 
   const submitDisabled = (!!formik.errors.name
     || !!formik.errors.password
     || !!formik.errors.passwordConfirm);
+  const submitTouched = (!formik.values.username
+    || !formik.values.password
+    || !formik.values.passwordConfirm);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -131,7 +133,7 @@ const Registration = () => {
                   <Button
                     type="submit"
                     className="w-100"
-                    variant={submitDisabled ? 'outline-primary' : 'primary'}
+                    variant={submitDisabled || submitTouched ? 'outline-primary' : 'primary'}
                     disabled={submitDisabled}
                   >
                     {t('registration.submit')}
