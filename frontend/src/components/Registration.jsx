@@ -134,7 +134,6 @@ const Registration = () => {
                     type="submit"
                     className="w-100"
                     variant={submitDisabled || submitTouched ? 'outline-primary' : 'primary'}
-                    disabled={submitDisabled}
                   >
                     {t('registration.submit')}
                   </Button>

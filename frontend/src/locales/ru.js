@@ -2,7 +2,7 @@ export default {
   translation: {
     errors: {
       invalidLoginPassword: 'Неверные имя пользователя или пароль',
-      userAlreadyExists: 'Такое имя пользователя уже существует',
+      userAlreadyExists: 'Такой пользователь уже существует',
     },
     login: {
       username: 'Ваш ник',
