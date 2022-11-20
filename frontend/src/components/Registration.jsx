@@ -1,4 +1,9 @@
-import { useContext, useState } from 'react';
+import {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -11,6 +16,13 @@ const Registration = () => {
   const auth = useContext(AuthContext);
   const [authError, setAuthError] = useState(null);
   const { t } = useTranslation();
+  const usernameInput = useRef();
+
+  useEffect(() => {
+    if (authError) {
+      usernameInput.current.select();
+    }
+  }, [authError]);
 
   const loginSchema = yup.object().shape({
     username: yup
@@ -36,14 +48,15 @@ const Registration = () => {
     },
     validationSchema: loginSchema,
     onSubmit: async ({ username, password }) => {
+      setAuthError(null);
       auth.signup({ username, password }, setAuthError);
     },
   });
 
-  const submitDisabled = (!!formik.errors.name
+  const submitNotValid = (!!formik.errors.username
     || !!formik.errors.password
     || !!formik.errors.passwordConfirm);
-  const submitTouched = (!formik.values.username
+  const submitEmpty = (!formik.values.username
     || !formik.values.password
     || !formik.values.passwordConfirm);
 
@@ -82,6 +95,7 @@ const Registration = () => {
                         || (!!formik.errors.username && formik.touched.username)}
                       name="username"
                       placeholder={t('registration.username')}
+                      ref={usernameInput}
                     />
                     <Form.Label>{t('registration.username')}</Form.Label>
                     {(authError
@@ -89,8 +103,9 @@ const Registration = () => {
                     )
                       && (
                         <Form.Control.Feedback type="invalid" tooltip>
-                          {authError && t('errors.userAlreadyExists')}
-                          {t(formik.errors.username)}
+                          {authError
+                            ? t('errors.userAlreadyExists')
+                            : t(formik.errors.username)}
                         </Form.Control.Feedback>
                       )}
                   </div>
@@ -101,7 +116,8 @@ const Registration = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values.password}
-                      isInvalid={!!formik.errors.password && formik.touched.password}
+                      isInvalid={authError
+                        || (!!formik.errors.password && formik.touched.password)}
                       name="password"
                       placeholder={t('registration.password')}
                     />
@@ -119,7 +135,8 @@ const Registration = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values.passwordConfirm}
-                      isInvalid={!!formik.errors.passwordConfirm && formik.touched.passwordConfirm}
+                      isInvalid={authError
+                        || (!!formik.errors.passwordConfirm && formik.touched.passwordConfirm)}
                       name="passwordConfirm"
                       placeholder={t('registration.passwordConfirm')}
                     />
@@ -133,7 +150,7 @@ const Registration = () => {
                   <Button
                     type="submit"
                     className="w-100"
-                    variant={submitDisabled || submitTouched ? 'outline-primary' : 'primary'}
+                    variant={submitNotValid || submitEmpty ? 'outline-primary' : 'primary'}
                   >
                     {t('registration.submit')}
                   </Button>
