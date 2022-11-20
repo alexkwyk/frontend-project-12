@@ -96,6 +96,7 @@ const Registration = () => {
                       name="username"
                       placeholder={t('registration.username')}
                       ref={usernameInput}
+                      required
                     />
                     <Form.Label>{t('registration.username')}</Form.Label>
                     {(authError
@@ -120,6 +121,7 @@ const Registration = () => {
                         || (!!formik.errors.password && formik.touched.password)}
                       name="password"
                       placeholder={t('registration.password')}
+                      required
                     />
                     <Form.Label>{t('registration.password')}</Form.Label>
                     {(!!formik.errors.password && formik.touched.password) && (
@@ -139,6 +141,7 @@ const Registration = () => {
                         || (!!formik.errors.passwordConfirm && formik.touched.passwordConfirm)}
                       name="passwordConfirm"
                       placeholder={t('registration.passwordConfirm')}
+                      required
                     />
                     <Form.Label>{t('registration.passwordConfirm')}</Form.Label>
                     {(!!formik.errors.passwordConfirm && formik.touched.passwordConfirm) && (
