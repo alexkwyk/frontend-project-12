@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import fetchData from '../slices/fetchThunk.js';
 import Header from './Header.jsx';
