@@ -43,7 +43,7 @@ const Channels = () => {
                 className="border-0 w-100 rounded-0 text-start text-truncate"
                 onClick={changeChannel(item)}
               >
-                <span className="p-2">#</span>
+                <span className="p-1">#</span>
                 {' '}
                 {item.name}
               </Button>
@@ -77,7 +77,8 @@ const Channels = () => {
                 onClick={changeChannel(item)}
                 key={item.id}
               >
-                <span className="p-2">#</span>
+                <span className="p-1">#</span>
+                {' '}
                 {item.name}
               </Button>
             )}

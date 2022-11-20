@@ -16,6 +16,7 @@ import Header from './Header.jsx';
 const Registration = () => {
   const auth = useContext(AuthContext);
   const [authError, setAuthError] = useState(null);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
   const { t } = useTranslation();
   const usernameInput = useRef();
 
@@ -49,7 +50,9 @@ const Registration = () => {
     },
     validationSchema: loginSchema,
     onSubmit: async ({ username, password }) => {
-      auth.signup({ username, password }, setAuthError);
+      setSubmitDisabled(true);
+      await auth.signup({ username, password }, setAuthError);
+      setSubmitDisabled(false);
     },
   });
 
@@ -152,7 +155,8 @@ const Registration = () => {
                   <Button
                     type="submit"
                     className="w-100"
-                    variant={submitNotValid || submitEmpty ? 'outline-primary' : 'primary'}
+                    variant={submitDisabled || submitNotValid || submitEmpty ? 'outline-primary' : 'primary'}
+                    disabled={submitDisabled}
                   >
                     {t('registration.submit')}
                   </Button>

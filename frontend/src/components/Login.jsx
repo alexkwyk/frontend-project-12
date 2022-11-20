@@ -9,6 +9,7 @@ import Header from './Header.jsx';
 const Login = () => {
   const auth = useContext(AuthContext);
   const [authError, setAuthError] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
   const { t } = useTranslation();
 
   const formik = useFormik({
@@ -17,7 +18,9 @@ const Login = () => {
       password: '',
     },
     onSubmit: async ({ username, password }) => {
-      auth.login({ username, password }, setAuthError);
+      setSubmitDisabled(true);
+      await auth.login({ username, password }, setAuthError);
+      setSubmitDisabled(false);
     },
   });
 
@@ -79,6 +82,7 @@ const Login = () => {
                   <Button
                     type="submit"
                     variant="outline-primary w-100"
+                    disabled={submitDisabled}
                   >
                     {t('login.submit')}
                   </Button>

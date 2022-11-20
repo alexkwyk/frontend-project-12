@@ -76,6 +76,7 @@ const MessageForm = ({ socket }) => {
             type="submit"
             id="submit-btn"
             className="rounded-0 mx-1 p-2 h-100 rounded-2"
+            variant={submitDisabled || formik.values.userMessage.length === 0 ? 'outline-primary' : 'primary'}
             disabled={submitDisabled || formik.values.userMessage.length === 0}
           >
             {t('messages.send')}
