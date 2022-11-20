@@ -39,7 +39,7 @@ const Remove = ({ socket, handleClose }) => {
           <Button className="me-2" variant="secondary" onClick={handleClose}>
             {t('modal.cancelSubmit')}
           </Button>
-          <Button variant="primary" type="button" onClick={handleRemove} disabled={submitDisabled}>
+          <Button variant="danger" type="button" onClick={handleRemove} disabled={submitDisabled}>
             {t('modal.deleteSubmit')}
           </Button>
         </div>

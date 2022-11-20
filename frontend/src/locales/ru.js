@@ -27,6 +27,7 @@ export default {
       title: 'Каналы',
       delete: 'Удалить',
       rename: 'Переименовать',
+      menuText: 'Управление каналом',
     },
     messages: {
       count_zero: 'сообщений',
@@ -41,7 +42,7 @@ export default {
     },
     modal: {
       required: 'Канал должен иметь название',
-      channelMax: 'Слишком длинное название',
+      channelMinMax: 'От 3 до 20 символов',
       channelAlreadyExtists: 'Такой канал уже существует',
       cancelSubmit: 'Отменить',
       sendSubmit: 'Отправить',
@@ -50,6 +51,7 @@ export default {
       createChannel: 'Создать канал',
       deleteChannel: 'Удалить канал',
       renameChannel: 'Переименовать канал',
+      hiddenLabel: 'Имя канала',
     },
     notFound: {
       message: 'Страница не найдена',

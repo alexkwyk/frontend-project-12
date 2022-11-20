@@ -21,7 +21,8 @@ const Add = ({ socket, handleClose }) => {
 
   const channelSchema = Yup.object().shape({
     name: Yup.string()
-      .max(13, 'modal.channelMax')
+      .min(3, 'modal.channelMinMax')
+      .max(20, 'modal.channelMinMax')
       .required('modal.required')
       .notOneOf(
         channelNames,
@@ -67,10 +68,12 @@ const Add = ({ socket, handleClose }) => {
               onBlur={formik.handleBlur}
               value={formik.values.name}
               name="name"
-              type="name"
               autoFocus
               autoComplete="false"
             />
+            <Form.Label htmlFor="name" className="visually-hidden">
+              {t('modal.hiddenLabel')}
+            </Form.Label>
             <Form.Control.Feedback type="invalid">
               {t(formik.errors.name)}
             </Form.Control.Feedback>

@@ -39,7 +39,7 @@ const Channels = () => {
               <Button
                 type="button"
                 variant={item.id === currentChannelId ? 'primary' : ''}
-                className="border-0 w-100 rounded-0 text-start"
+                className="border-0 w-100 rounded-0 text-start text-truncate"
                 onClick={changeChannel(item)}
               >
                 <span className="p-2">#</span>
@@ -49,7 +49,9 @@ const Channels = () => {
                 split
                 variant={item.id === currentChannelId ? 'primary' : ''}
                 id="dropdown-split-basic"
-              />
+              >
+                <span className="visually-hidden">{t('channels.menuText')}</span>
+              </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item
                   onClick={removeChannel(item)}

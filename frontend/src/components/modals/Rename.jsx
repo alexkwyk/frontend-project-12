@@ -20,7 +20,8 @@ const Rename = ({ socket, handleClose }) => {
 
   const channelSchema = Yup.object().shape({
     name: Yup.string()
-      .max(13, 'modal.channelMax')
+      .min(3, 'modal.channelMinMax')
+      .max(20, 'modal.channelMinMax')
       .required('modal.required')
       .notOneOf(
         channelNames,
@@ -79,6 +80,9 @@ const Rename = ({ socket, handleClose }) => {
               autoComplete="false"
               ref={input}
             />
+            <Form.Label htmlFor="name" className="visually-hidden">
+              {t('modal.hiddenLabel')}
+            </Form.Label>
             <Form.Control.Feedback type="invalid">
               {t(formik.errors.name)}
             </Form.Control.Feedback>
