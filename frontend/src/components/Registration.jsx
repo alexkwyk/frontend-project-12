@@ -48,7 +48,6 @@ const Registration = () => {
     },
     validationSchema: loginSchema,
     onSubmit: async ({ username, password }) => {
-      setAuthError(null);
       auth.signup({ username, password }, setAuthError);
     },
   });
@@ -84,21 +83,20 @@ const Registration = () => {
                   <h1 className="text-center mb-5">
                     {t('registration.title')}
                   </h1>
-                  <div className="form-floating mb-3">
+                  <Form.Group className="form-floating mb-3">
                     <Form.Control
                       id="username"
-                      type="username"
+                      name="username"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values.username}
                       isInvalid={authError
                         || (!!formik.errors.username && formik.touched.username)}
-                      name="username"
                       placeholder={t('registration.username')}
                       ref={usernameInput}
                       required
                     />
-                    <Form.Label>{t('registration.username')}</Form.Label>
+                    <Form.Label htmlFor="username">{t('registration.username')}</Form.Label>
                     {(authError
                       || (!!formik.errors.username && formik.touched.username)
                     )
@@ -109,8 +107,8 @@ const Registration = () => {
                             : t(formik.errors.username)}
                         </Form.Control.Feedback>
                       )}
-                  </div>
-                  <div className="form-floating mb-4">
+                  </Form.Group>
+                  <Form.Group className="form-floating mb-4">
                     <Form.Control
                       id="password"
                       type="password"
@@ -123,14 +121,14 @@ const Registration = () => {
                       placeholder={t('registration.password')}
                       required
                     />
-                    <Form.Label>{t('registration.password')}</Form.Label>
+                    <Form.Label htmlFor="password">{t('registration.password')}</Form.Label>
                     {(!!formik.errors.password && formik.touched.password) && (
                       <Form.Control.Feedback type="invalid" tooltip>
                         {t(formik.errors.password)}
                       </Form.Control.Feedback>
                     )}
-                  </div>
-                  <div className="form-floating mb-4">
+                  </Form.Group>
+                  <Form.Group className="form-floating mb-4">
                     <Form.Control
                       id="passwordConfirm"
                       type="password"
@@ -143,13 +141,13 @@ const Registration = () => {
                       placeholder={t('registration.passwordConfirm')}
                       required
                     />
-                    <Form.Label>{t('registration.passwordConfirm')}</Form.Label>
+                    <Form.Label htmlFor="passwordConfirm">{t('registration.passwordConfirm')}</Form.Label>
                     {(!!formik.errors.passwordConfirm && formik.touched.passwordConfirm) && (
                       <Form.Control.Feedback type="invalid" tooltip>
                         {t(formik.errors.passwordConfirm)}
                       </Form.Control.Feedback>
                     )}
-                  </div>
+                  </Form.Group>
                   <Button
                     type="submit"
                     className="w-100"
