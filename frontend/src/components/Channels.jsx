@@ -43,6 +43,7 @@ const Channels = () => {
                 onClick={changeChannel(item)}
               >
                 <span className="p-2">#</span>
+                {' '}
                 {item.name}
               </Button>
               <Dropdown.Toggle
