@@ -45,7 +45,7 @@ const Rename = ({ socket, handleClose }) => {
               toast.error(t('toast.networkError'));
               setSubmitDisabled(false);
             } else if (response.status === 'ok') {
-              toast.success(t('toast.removeChannel'));
+              toast.success(t('toast.renameChannel'));
               setSubmitDisabled(false);
               handleClose();
             }
