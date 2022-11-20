@@ -45,7 +45,7 @@ const Login = () => {
                   <h1 className="text-center mb-5">
                     {t('login.title')}
                   </h1>
-                  <div className="form-floating mb-3">
+                  <Form.Group className="form-floating mb-3">
                     <Form.Control
                       id="username"
                       type="username"
@@ -56,9 +56,9 @@ const Login = () => {
                       placeholder={t('login.username')}
                       required
                     />
-                    <Form.Label>{t('login.username')}</Form.Label>
-                  </div>
-                  <div className="form-floating mb-4">
+                    <Form.Label htmlFor="username">{t('login.username')}</Form.Label>
+                  </Form.Group>
+                  <Form.Group className="form-floating mb-4">
                     <Form.Control
                       id="password"
                       type="password"
@@ -69,13 +69,13 @@ const Login = () => {
                       placeholder={t('login.password')}
                       required
                     />
-                    <Form.Label>{t('login.password')}</Form.Label>
+                    <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
                     {authError && (
                       <Form.Control.Feedback type="invalid" tooltip>
                         {t('errors.invalidLoginPassword')}
                       </Form.Control.Feedback>
                     )}
-                  </div>
+                  </Form.Group>
                   <Button
                     type="submit"
                     variant="outline-primary w-100"
