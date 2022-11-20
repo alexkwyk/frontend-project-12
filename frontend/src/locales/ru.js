@@ -35,6 +35,8 @@ export default {
       count_few: 'сообщения',
       count_many: 'сообщений',
       send: 'Отправить',
+      typeMessage: 'Введите сообщение...',
+      newMessage: 'Новое сообщение',
     },
     header: {
       title: 'Hexlet Chat',

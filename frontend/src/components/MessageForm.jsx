@@ -65,8 +65,8 @@ const MessageForm = ({ socket }) => {
           <Form.Control
             name="userMessage"
             className="rounded-2"
-            placeholder="Введите сообщение..."
-            aria-label="Новое сообщение"
+            placeholder={t('messages.typeMessage')}
+            aria-label={t('messages.newMessage')}
             aria-describedby="submit-btn"
             value={formik.values.userMessage}
             onChange={formik.handleChange}
