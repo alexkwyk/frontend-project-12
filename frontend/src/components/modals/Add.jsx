@@ -40,10 +40,10 @@ const Add = ({ socket, handleClose }) => {
             setSubmitDisabled(false);
             rollbar.error(err);
           } else if (response.status === 'ok') {
-            handleClose();
-            toast.success(t('toast.addChannel'));
             dispatch(setCurrentChannelId(response.data.id));
+            handleClose();
             setSubmitDisabled(false);
+            toast.success(t('toast.addChannel'));
           }
         });
     },
@@ -64,6 +64,7 @@ const Add = ({ socket, handleClose }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.name}
+              id="name"
               name="name"
               autoFocus
               autoComplete="false"

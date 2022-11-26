@@ -68,12 +68,13 @@ const Rename = ({ socket, handleClose }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group controlId="name">
+          <Form.Group>
             <Form.Control
               isInvalid={!!formik.errors.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.name}
+              id="name"
               name="name"
               type="name"
               autoFocus
