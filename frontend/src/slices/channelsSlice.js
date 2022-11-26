@@ -2,20 +2,26 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import fetchData from './fetchThunk.js';
 
+const defaultChannelId = 1;
+
 const channelsAdapter = createEntityAdapter();
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: channelsAdapter.getInitialState(),
+  initialState: channelsAdapter.getInitialState({
+    currentChannelId: defaultChannelId,
+  }),
   reducers: {
     setCurrentChannelId: (state, { payload }) => {
       state.currentChannelId = payload;
     },
-    addChannel: channelsAdapter.addOne,
+    addChannel: (state, { payload }) => {
+      channelsAdapter.addOne(state, payload);
+    },
     removeChannel: (state, { payload }) => {
       channelsAdapter.removeOne(state, payload);
       if (state.currentChannelId === payload) {
-        state.currentChannelId = 1;
+        state.currentChannelId = defaultChannelId;
       }
     },
     renameChannel: channelsAdapter.upsertOne,

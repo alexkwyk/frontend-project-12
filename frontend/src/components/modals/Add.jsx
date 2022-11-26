@@ -13,9 +13,6 @@ const Add = ({ socket, handleClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
-  const lastChannelId = useSelector(
-    (state) => state.channels.ids[state.channels.ids.length - 1],
-  );
   const channelNames = Object.values(useSelector(selectors.selectEntities))
     .map(({ name }) => name);
 
@@ -43,10 +40,10 @@ const Add = ({ socket, handleClose }) => {
             setSubmitDisabled(false);
             rollbar.error(err);
           } else if (response.status === 'ok') {
-            dispatch(setCurrentChannelId(lastChannelId + 1));
-            setSubmitDisabled(false);
             handleClose();
             toast.success(t('toast.addChannel'));
+            dispatch(setCurrentChannelId(response.data.id));
+            setSubmitDisabled(false);
           }
         });
     },
@@ -61,7 +58,7 @@ const Add = ({ socket, handleClose }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group controlId="name">
+          <Form.Group>
             <Form.Control
               isInvalid={!!formik.errors.name}
               onChange={formik.handleChange}
