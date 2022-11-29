@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import AuthContext from '../contexts/index.js';
+import { useAuth } from '../contexts/index.js';
 
 const Header = () => {
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
   const { t } = useTranslation();
   const isAuthorized = !!auth.user;
   const handleClick = () => auth.signout();

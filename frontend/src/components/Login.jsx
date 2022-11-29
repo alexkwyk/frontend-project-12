@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import AuthContext from '../contexts/index.js';
+import { useAuth } from '../contexts/index.js';
 import loginImage from '../assets/loginImage.jpg';
 import Header from './Header.jsx';
 
 const Login = () => {
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
   const [authError, setAuthError] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const { t } = useTranslation();

@@ -1,6 +1,5 @@
 import React,
 {
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -9,12 +8,12 @@ import { Form, Button, Card } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import AuthContext from '../contexts/index.js';
+import { useAuth } from '../contexts/index.js';
 import registrationImage from '../assets/registrationImage.jpg';
 import Header from './Header.jsx';
 
 const Registration = () => {
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
   const [authError, setAuthError] = useState(null);
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const { t } = useTranslation();

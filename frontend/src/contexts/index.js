@@ -1,7 +1,7 @@
-import { createContext } from 'react';
+/* eslint-disable import/prefer-default-export */
+import { createContext, useContext } from 'react';
 
-const AuthContext = createContext({
-  isAuthorized: false,
-});
+const AuthContext = createContext({});
+const useAuth = () => useContext(AuthContext);
 
-export default AuthContext;
+export { AuthContext, useAuth };

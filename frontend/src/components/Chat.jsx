@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import fetchData from '../slices/fetchThunk.js';
 import Header from './Header.jsx';
@@ -6,11 +6,11 @@ import Channels from './Channels.jsx';
 import MessageForm from './MessageForm.jsx';
 import Messages from './Messages.jsx';
 import ModalWindow from './ModalWindow.jsx';
-import AuthContext from '../contexts/index.js';
+import { useAuth } from '../contexts/index.js';
 
 const Chat = ({ socket }) => {
   const dispatch = useDispatch();
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
   const { token } = auth.user;
   useEffect(() => {
     dispatch(fetchData(token));

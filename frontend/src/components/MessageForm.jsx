@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Button,
@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 import * as filter from 'leo-profanity';
 import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
-import AuthContext from '../contexts/index.js';
+import { useAuth } from '../contexts/index.js';
 
 const MessageForm = ({ socket }) => {
   const rollbar = useRollbar();
@@ -20,7 +20,7 @@ const MessageForm = ({ socket }) => {
   const { currentChannelId } = useSelector((state) => state.channels);
   const messagesCount = useSelector(messagesSelectors.selectTotal);
 
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
   const { username } = auth.user;
 
   const input = useRef();
