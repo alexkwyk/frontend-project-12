@@ -6,7 +6,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 import * as Yup from 'yup';
-import { selectors } from '../../slices/channelsSlice.js';
+import { selectors } from '../../../../slices/channelsSlice.js';
 
 const Rename = ({ socket, handleClose }) => {
   const rollbar = useRollbar();

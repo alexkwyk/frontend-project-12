@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { useAuth } from '../contexts/index.js';
-import loginImage from '../assets/loginImage.jpg';
-import Header from './Header.jsx';
+import { useAuth } from '../../contexts/index.js';
+import loginImage from '../../assets/loginImage.jpg';
+import Header from '../Header.jsx';
 
 const Login = () => {
   const auth = useAuth();

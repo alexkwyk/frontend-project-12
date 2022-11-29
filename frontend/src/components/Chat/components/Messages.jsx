@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { selectors as channelsSelectors } from '../slices/channelsSlice.js';
-import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
+import { selectors as channelsSelectors } from '../../../slices/channelsSlice.js';
+import { selectors as messagesSelectors } from '../../../slices/messagesSlice.js';
 
 const Messages = () => {
   const { t } = useTranslation();

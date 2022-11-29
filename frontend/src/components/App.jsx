@@ -11,10 +11,10 @@ import {
 import { useAuth } from '../contexts/index.js';
 import AuthProvider from '../contexts/AuthProvider.jsx';
 
-import Chat from './Chat.jsx';
-import Login from './Login.jsx';
-import Registration from './Registration.jsx';
-import NotFound from './NotFound.jsx';
+import Chat from './Chat/Chat.jsx';
+import Login from './Login/Login.jsx';
+import Registration from './Registration/Registration.jsx';
+import NotFound from './NotFound/NotFound.jsx';
 
 const App = ({ socket }) => (
   <BrowserRouter>
@@ -29,14 +29,44 @@ const App = ({ socket }) => (
               </RequireAuth>
             )}
           />
-          <Route path="/login" element={<Login />} />
-          <Route path="/*" element={<NotFound />} />
-          <Route path="/signup" element={<Registration />} />
+          <Route
+            path="/login"
+            element={(
+              <AlreadyAuth>
+                <Login />
+              </AlreadyAuth>
+            )}
+          />
+          <Route
+            path="/signup"
+            element={(
+              <AlreadyAuth>
+                <Registration />
+              </AlreadyAuth>
+            )}
+          />
+          <Route
+            path="/*"
+            element={(
+              <NotFound />
+            )}
+          />
         </Route>
       </Routes>
     </AuthProvider>
   </BrowserRouter>
 );
+
+const AlreadyAuth = ({ children }) => {
+  const auth = useAuth();
+  const location = useLocation();
+
+  if (auth.user) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
 
 const RequireAuth = ({ children }) => {
   const auth = useAuth();

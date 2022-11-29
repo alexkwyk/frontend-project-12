@@ -11,8 +11,8 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 import * as filter from 'leo-profanity';
-import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
-import { useAuth } from '../contexts/index.js';
+import { selectors as messagesSelectors } from '../../../slices/messagesSlice.js';
+import { useAuth } from '../../../contexts/index.js';
 
 const MessageForm = ({ socket }) => {
   const rollbar = useRollbar();

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import fetchData from '../slices/fetchThunk.js';
-import Header from './Header.jsx';
-import Channels from './Channels.jsx';
-import MessageForm from './MessageForm.jsx';
-import Messages from './Messages.jsx';
-import ModalWindow from './ModalWindow.jsx';
-import { useAuth } from '../contexts/index.js';
+import fetchData from '../../slices/fetchThunk.js';
+import Header from '../Header.jsx';
+import Channels from './components/Channels.jsx';
+import MessageForm from './components/MessageForm.jsx';
+import Messages from './components/Messages.jsx';
+import ModalWindow from './components/ModalWindow.jsx';
+import { useAuth } from '../../contexts/index.js';
 
 const Chat = ({ socket }) => {
   const dispatch = useDispatch();

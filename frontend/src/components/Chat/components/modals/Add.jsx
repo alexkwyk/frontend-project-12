@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { selectors, setCurrentChannelId } from '../../slices/channelsSlice.js';
+import { selectors, setCurrentChannelId } from '../../../../slices/channelsSlice.js';
 
 const Add = ({ socket, handleClose }) => {
   const rollbar = useRollbar();

@@ -8,9 +8,9 @@ import { Form, Button, Card } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useAuth } from '../contexts/index.js';
-import registrationImage from '../assets/registrationImage.jpg';
-import Header from './Header.jsx';
+import { useAuth } from '../../contexts/index.js';
+import registrationImage from '../../assets/registrationImage.jpg';
+import Header from '../Header.jsx';
 
 const Registration = () => {
   const auth = useAuth();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Header from './Header.jsx';
-import NotFoundImage from '../assets/NotFoundImage.svg';
+import Header from '../Header.jsx';
+import NotFoundImage from '../../assets/NotFoundImage.svg';
 
 const NotFound = () => {
   const { t } = useTranslation();
