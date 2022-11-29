@@ -6,8 +6,10 @@ import { useAuth } from '../contexts/index.js';
 const Header = () => {
   const auth = useAuth();
   const { t } = useTranslation();
+
   const isAuthorized = !!auth.user;
   const handleClick = () => auth.signout();
+
   return (
     <Navbar bg="white" className="shadow-sm">
       <Container>

@@ -13,17 +13,19 @@ import { useRollbar } from '@rollbar/react';
 import * as filter from 'leo-profanity';
 import { selectors as messagesSelectors } from '../../../slices/messagesSlice.js';
 import { useAuth } from '../../../contexts/index.js';
+import { getCurrentChannelId } from '../../../slices/channelsSlice.js';
 
 const MessageForm = ({ socket }) => {
   const rollbar = useRollbar();
   const { t } = useTranslation();
-  const { currentChannelId } = useSelector((state) => state.channels);
-  const messagesCount = useSelector(messagesSelectors.selectTotal);
-
   const auth = useAuth();
+  const input = useRef();
+
   const { username } = auth.user;
 
-  const input = useRef();
+  const currentChannelId = useSelector(getCurrentChannelId);
+  const messagesCount = useSelector(messagesSelectors.selectTotal);
+
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const formik = useFormik({

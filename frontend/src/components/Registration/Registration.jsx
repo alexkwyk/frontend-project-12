@@ -14,10 +14,11 @@ import Header from '../Header.jsx';
 
 const Registration = () => {
   const auth = useAuth();
-  const [authError, setAuthError] = useState(null);
-  const [submitDisabled, setSubmitDisabled] = useState(false);
   const { t } = useTranslation();
   const usernameInput = useRef();
+
+  const [authError, setAuthError] = useState(null);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   useEffect(() => {
     if (authError) {

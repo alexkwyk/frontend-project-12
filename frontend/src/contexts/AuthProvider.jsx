@@ -12,12 +12,13 @@ import routes from '../routes.js';
 import { AuthContext } from './index.js';
 
 const useProvideAuth = () => {
-  const currentUser = localStorage.getItem('user');
-  const [user, setUser] = useState(currentUser ? JSON.parse(currentUser) : null);
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
   const rollbar = useRollbar();
+
+  const currentUser = localStorage.getItem('user');
+  const [user, setUser] = useState(currentUser ? JSON.parse(currentUser) : null);
 
   const login = async (userData, setAuthError) => {
     try {

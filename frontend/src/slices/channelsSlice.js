@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import fetchData from './fetchThunk.js';
 
 const defaultChannelId = 1;
@@ -41,5 +41,12 @@ export const {
   removeChannel,
   renameChannel,
 } = channelsSlice.actions;
+
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
+export const getCurrentChannelId = (state) => state.channels.currentChannelId;
+export const getChannelNames = createSelector(
+  selectors.selectEntities,
+  (selectEntities) => Object.values(selectEntities).map(({ name }) => name),
+);
+
 export default channelsSlice.reducer;

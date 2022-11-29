@@ -6,15 +6,16 @@ import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { selectors, setCurrentChannelId } from '../../../../slices/channelsSlice.js';
+import { getChannelNames, setCurrentChannelId } from '../../../../slices/channelsSlice.js';
 
 const Add = ({ socket, handleClose }) => {
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
-  const channelNames = Object.values(useSelector(selectors.selectEntities))
-    .map(({ name }) => name);
+
+  const channelNames = useSelector(getChannelNames);
 
   const channelSchema = Yup.object().shape({
     name: Yup.string()

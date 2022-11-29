@@ -5,11 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 
+import { getModalTarget } from '../../../../slices/modalSlice.js';
+
 const Remove = ({ socket, handleClose }) => {
   const rollbar = useRollbar();
   const { t } = useTranslation();
-  const { id } = useSelector((state) => state.modal.target);
+
   const [submitDisabled, setSubmitDisabled] = useState(false);
+
+  const { id } = useSelector(getModalTarget);
 
   const handleRemove = () => {
     setSubmitDisabled(true);

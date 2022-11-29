@@ -12,6 +12,7 @@ const Chat = ({ socket }) => {
   const dispatch = useDispatch();
   const auth = useAuth();
   const { token } = auth.user;
+
   useEffect(() => {
     dispatch(fetchData(token));
   }, [dispatch, token]);

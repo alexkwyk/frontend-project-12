@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import { removeChannel } from './channelsSlice.js';
 import fetchData from './fetchThunk.js';
 
@@ -27,4 +27,12 @@ const messagesSlice = createSlice({
 
 export const { addMessage } = messagesSlice.actions;
 export const selectors = messagesAdapter.getSelectors((state) => state.messages);
+
+export const getCurrentChannelMessages = createSelector(
+  (state) => state.channels.currentChannelId,
+  selectors.selectAll,
+  (currentChannelId, selectAll) => selectAll
+    .filter((item) => item.channelId === currentChannelId),
+);
+
 export default messagesSlice.reducer;

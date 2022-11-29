@@ -8,9 +8,10 @@ import Header from '../Header.jsx';
 
 const Login = () => {
   const auth = useAuth();
+  const { t } = useTranslation();
+
   const [authError, setAuthError] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(false);
-  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {

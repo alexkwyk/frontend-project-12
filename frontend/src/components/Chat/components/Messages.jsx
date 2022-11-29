@@ -1,15 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { selectors as channelsSelectors } from '../../../slices/channelsSlice.js';
-import { selectors as messagesSelectors } from '../../../slices/messagesSlice.js';
+import { getCurrentChannelId, selectors as channelsSelectors } from '../../../slices/channelsSlice.js';
+import { getCurrentChannelMessages } from '../../../slices/messagesSlice.js';
 
 const Messages = () => {
   const { t } = useTranslation();
+
   const channels = useSelector(channelsSelectors.selectAll);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const messages = useSelector(messagesSelectors.selectAll)
-    .filter((item) => item.channelId === currentChannelId);
+  const currentChannelId = useSelector(getCurrentChannelId);
+
+  const messages = useSelector(getCurrentChannelMessages);
   const messagesCount = messages.length;
 
   return (

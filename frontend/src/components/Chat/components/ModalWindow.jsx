@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { closeModal } from '../../../slices/modalSlice.js';
+import { closeModal, getModalState } from '../../../slices/modalSlice.js';
 import Add from './modals/Add.jsx';
 import Remove from './modals/Remove.jsx';
 import Rename from './modals/Rename.jsx';
@@ -14,7 +14,7 @@ const modalComponents = {
 
 const ModalWindow = ({ socket }) => {
   const dispatch = useDispatch();
-  const { isOpened, type, target } = useSelector((state) => state.modal);
+  const { isOpened, type, target } = useSelector(getModalState);
   const ModalComponent = modalComponents[type];
   const handleClose = () => dispatch(closeModal());
   return (

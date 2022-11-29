@@ -6,17 +6,18 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useRollbar } from '@rollbar/react';
 import * as Yup from 'yup';
-import { selectors } from '../../../../slices/channelsSlice.js';
+import { getChannelNames } from '../../../../slices/channelsSlice.js';
+import { getModalTarget } from '../../../../slices/modalSlice.js';
 
 const Rename = ({ socket, handleClose }) => {
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const input = useRef();
+
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
-  const channelName = useSelector((state) => state.modal.target.name);
-  const channelId = useSelector((state) => state.modal.target.id);
-  const channelNames = Object.values(useSelector(selectors.selectEntities))
-    .map(({ name }) => name);
+
+  const { id, name: channelName } = useSelector(getModalTarget);
+  const channelNames = useSelector(getChannelNames);
 
   const channelSchema = Yup.object().shape({
     name: Yup.string()
@@ -38,7 +39,7 @@ const Rename = ({ socket, handleClose }) => {
         .timeout(5000)
         .emit(
           'renameChannel',
-          { id: channelId, name: values.name },
+          { id, name: values.name },
           (err, response) => {
             if (err) {
               rollbar.error(err);

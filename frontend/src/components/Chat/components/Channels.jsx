@@ -13,14 +13,15 @@ import { openModal } from '../../../slices/modalSlice.js';
 const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const changeChannel = ({ id }) => () => dispatch(setCurrentChannelId(id));
   const addChannel = () => dispatch(openModal({ type: 'adding' }));
   const removeChannel = ({ id }) => () => dispatch(openModal({ type: 'removing', target: { id } }));
   const renameChannel = ({ id, name }) => () => dispatch(openModal({ type: 'renaming', target: { id, name } }));
 
   const channels = useSelector(channelsSelectors.selectAll);
-
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+
   return (
     <Nav variant="pills" defaultActiveKey="1" className="flex-column">
       <div className="d-flex justify-content-between py-4 px-3">
