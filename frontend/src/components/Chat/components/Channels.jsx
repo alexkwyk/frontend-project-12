@@ -7,7 +7,7 @@ import {
   Dropdown,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { selectors as channelsSelectors, setCurrentChannelId } from '../../../slices/channelsSlice.js';
+import { selectors as channelsSelectors, getCurrentChannelId, setCurrentChannelId } from '../../../slices/channelsSlice.js';
 import { openModal } from '../../../slices/modalSlice.js';
 
 const Channels = () => {
@@ -20,7 +20,7 @@ const Channels = () => {
   const renameChannel = ({ id, name }) => () => dispatch(openModal({ type: 'renaming', target: { id, name } }));
 
   const channels = useSelector(channelsSelectors.selectAll);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const currentChannelId = useSelector(getCurrentChannelId);
 
   return (
     <Nav variant="pills" defaultActiveKey="1" className="flex-column">
