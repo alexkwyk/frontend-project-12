@@ -8,23 +8,18 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
-import { useRollbar } from '@rollbar/react';
-import * as filter from 'leo-profanity';
-import { selectors as messagesSelectors } from '../../../slices/messagesSlice.js';
-import { useAuth } from '../../../contexts/index.js';
+import { useAuth, useNetworkApi } from '../../../contexts/index.js';
 import { getCurrentChannelId } from '../../../slices/channelsSlice.js';
 
-const MessageForm = ({ socket }) => {
-  const rollbar = useRollbar();
+const MessageForm = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const input = useRef();
+  const api = useNetworkApi();
 
   const { username } = auth.user;
 
   const currentChannelId = useSelector(getCurrentChannelId);
-  const messagesCount = useSelector(messagesSelectors.selectTotal);
 
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
@@ -32,26 +27,19 @@ const MessageForm = ({ socket }) => {
     initialValues: {
       userMessage: '',
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setSubmitDisabled(true);
-      const message = {
-        id: messagesCount + 1,
-        body: filter.clean(values.userMessage, '*'),
-        username,
-        channelId: currentChannelId,
+      const handleReset = () => {
+        formik.resetForm();
+        input.current.focus();
       };
-      socket
-        .timeout(5000)
-        .emit('newMessage', message, (err, response) => {
-          if (err) {
-            toast.error(t('toast.networkError'));
-            rollbar.error(err);
-          } else if (response.status === 'ok') {
-            formik.resetForm();
-            input.current.focus();
-          }
-          setSubmitDisabled(false);
-        });
+      await api.sendMessage(
+        values.userMessage,
+        username,
+        currentChannelId,
+        handleReset,
+        setSubmitDisabled,
+      );
     },
   });
 

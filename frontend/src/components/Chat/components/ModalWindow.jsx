@@ -12,7 +12,7 @@ const modalComponents = {
   renaming: Rename,
 };
 
-const ModalWindow = ({ socket }) => {
+const ModalWindow = () => {
   const dispatch = useDispatch();
   const { isOpened, type, target } = useSelector(getModalState);
   const ModalComponent = modalComponents[type];
@@ -23,7 +23,7 @@ const ModalWindow = ({ socket }) => {
       onHide={handleClose}
       centered
     >
-      {isOpened && <ModalComponent socket={socket} target={target} handleClose={handleClose} />}
+      {isOpened && <ModalComponent target={target} handleClose={handleClose} />}
     </Modal>
   );
 };

@@ -2,34 +2,21 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { useRollbar } from '@rollbar/react';
 
 import { getModalTarget } from '../../../../slices/modalSlice.js';
+import { useNetworkApi } from '../../../../contexts/index.js';
 
-const Remove = ({ socket, handleClose }) => {
-  const rollbar = useRollbar();
+const Remove = ({ handleClose }) => {
   const { t } = useTranslation();
+  const api = useNetworkApi();
 
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const { id } = useSelector(getModalTarget);
 
-  const handleRemove = () => {
+  const handleRemove = async () => {
     setSubmitDisabled(true);
-    socket
-      .timeout(5000)
-      .emit('removeChannel', { id }, (err, response) => {
-        if (err) {
-          rollbar.error(err);
-          toast.error(t('toast.networkError'));
-          setSubmitDisabled(false);
-        } else if (response.status === 'ok') {
-          setSubmitDisabled(false);
-          handleClose();
-          toast.success(t('toast.removeChannel'));
-        }
-      });
+    await api.removeChannel(id, setSubmitDisabled);
   };
 
   return (

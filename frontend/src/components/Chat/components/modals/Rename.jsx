@@ -3,16 +3,15 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
-import { useRollbar } from '@rollbar/react';
 import * as Yup from 'yup';
 import { getChannelNames } from '../../../../slices/channelsSlice.js';
 import { getModalTarget } from '../../../../slices/modalSlice.js';
+import { useNetworkApi } from '../../../../contexts/index.js';
 
-const Rename = ({ socket, handleClose }) => {
-  const rollbar = useRollbar();
+const Rename = ({ handleClose }) => {
   const { t } = useTranslation();
   const input = useRef();
+  const api = useNetworkApi();
 
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
 
@@ -33,25 +32,9 @@ const Rename = ({ socket, handleClose }) => {
   const formik = useFormik({
     initialValues: { name: channelName },
     validationSchema: channelSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setSubmitDisabled(true);
-      socket
-        .timeout(5000)
-        .emit(
-          'renameChannel',
-          { id, name: values.name },
-          (err, response) => {
-            if (err) {
-              rollbar.error(err);
-              toast.error(t('toast.networkError'));
-              setSubmitDisabled(false);
-            } else if (response.status === 'ok') {
-              toast.success(t('toast.renameChannel'));
-              setSubmitDisabled(false);
-              handleClose();
-            }
-          },
-        );
+      await api.renameChannel(id, values.name, setSubmitDisabled);
     },
     validateOnBlur: false,
   });

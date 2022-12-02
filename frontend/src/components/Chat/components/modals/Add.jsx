@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { useRollbar } from '@rollbar/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { getChannelNames, setCurrentChannelId } from '../../../../slices/channelsSlice.js';
+import { getChannelNames } from '../../../../slices/channelsSlice.js';
+import { useNetworkApi } from '../../../../contexts/index.js';
 
-const Add = ({ socket, handleClose }) => {
-  const rollbar = useRollbar();
+const Add = ({ handleClose }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const api = useNetworkApi();
 
   const [sumbitDisabled, setSubmitDisabled] = useState(false);
 
@@ -31,22 +29,9 @@ const Add = ({ socket, handleClose }) => {
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: channelSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setSubmitDisabled(true);
-      socket
-        .timeout(5000)
-        .emit('newChannel', { name: values.name }, (err, response) => {
-          if (err) {
-            toast.error(t('toast.networkError'));
-            setSubmitDisabled(false);
-            rollbar.error(err);
-          } else if (response.status === 'ok') {
-            dispatch(setCurrentChannelId(response.data.id));
-            handleClose();
-            setSubmitDisabled(false);
-            toast.success(t('toast.addChannel'));
-          }
-        });
+      await api.addChannel(values.name, setSubmitDisabled);
     },
   });
 
