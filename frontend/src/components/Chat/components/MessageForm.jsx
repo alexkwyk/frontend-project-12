@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Button,
@@ -22,6 +22,10 @@ const MessageForm = () => {
   const currentChannelId = useSelector(getCurrentChannelId);
 
   const [submitDisabled, setSubmitDisabled] = useState(false);
+
+  useEffect(() => {
+    input.current.focus();
+  }, [currentChannelId]);
 
   const formik = useFormik({
     initialValues: {
@@ -66,8 +70,8 @@ const MessageForm = () => {
             type="submit"
             id="submit-btn"
             className="rounded-0 mx-1 p-2 h-100 rounded-2"
-            variant={submitDisabled || formik.values.userMessage.length === 0 ? 'outline-primary' : 'primary'}
-            disabled={submitDisabled || formik.values.userMessage.length === 0}
+            variant={submitDisabled || formik.values.userMessage.trim().length === 0 ? 'outline-primary' : 'primary'}
+            disabled={submitDisabled || formik.values.userMessage.trim().length === 0}
           >
             {t('messages.send')}
           </Button>

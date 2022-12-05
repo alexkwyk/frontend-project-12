@@ -162,6 +162,13 @@ const Registration = () => {
                   </Button>
                 </Form>
               </Card.Body>
+              <Card.Footer className="p-3">
+                <div className="text-center">
+                  {t('registration.footerMessage')}
+                  {' '}
+                  <a href="/login">{t('registration.footerLink')}</a>
+                </div>
+              </Card.Footer>
             </Card>
           </div>
         </div>

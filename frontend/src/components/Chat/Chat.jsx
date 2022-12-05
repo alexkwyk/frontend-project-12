@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import fetchData from '../../slices/fetchThunk.js';
 import Header from '../Header.jsx';
@@ -13,16 +14,27 @@ import { useAuth } from '../../contexts/index.js';
 const Chat = () => {
   const dispatch = useDispatch();
   const auth = useAuth();
+  const { t } = useTranslation();
   const { token } = auth.user;
 
   const [pageLoaded, setPageLoaded] = useState(false);
 
+  const [tokenError, setTokenError] = useState(false);
+
+  const handleSignOut = () => {
+    auth.signout();
+    setTokenError(false);
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      await dispatch(fetchData(token));
-      setPageLoaded(true);
-    };
-    loadData();
+    (async () => {
+      const response = await dispatch(fetchData(token));
+      if (response.error) {
+        setTokenError(true);
+      } else {
+        setPageLoaded(true);
+      }
+    })();
   }, [dispatch, token]);
 
   return (
@@ -42,9 +54,17 @@ const Chat = () => {
           </div>
         ) : (
           <div className="d-flex justify-content-center align-items-center h-100">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            {tokenError ? (
+              <div className="text-center">
+                <p>{t('errors.tokenErrorMessage1')}</p>
+                <p>{t('errors.tokenErrorMessage2')}</p>
+                <Button onClick={handleSignOut}>{t('errors.tokenErrorButton')}</Button>
+              </div>
+            ) : (
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            )}
           </div>
         )}
       </div>

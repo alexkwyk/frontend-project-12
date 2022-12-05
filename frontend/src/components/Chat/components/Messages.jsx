@@ -30,7 +30,7 @@ const Messages = () => {
           {t('messages.count', { count: messagesCount })}
         </span>
       </div>
-      <div className="px-5 overflow-auto">
+      <div className="px-5 overflow-auto d-flex flex-column-reverse">
         {messages.map(({ username, body, id }) => (
           <p
             key={id}

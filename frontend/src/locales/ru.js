@@ -3,6 +3,9 @@ export default {
     errors: {
       invalidLoginPassword: 'Неверные имя пользователя или пароль',
       userAlreadyExists: 'Такой пользователь уже существует',
+      tokenErrorMessage1: 'Произошла ошибка при определении вашей учетной записи.',
+      tokenErrorMessage2: 'Пожалуйста, войдите в вашу учетную запись снова.',
+      tokenErrorButton: 'Войти',
     },
     login: {
       username: 'Ваш ник',
@@ -22,6 +25,8 @@ export default {
       password: 'Пароль',
       passwordConfirm: 'Подтвердите пароль',
       submit: 'Зарегистрироваться',
+      footerMessage: 'Уже есть аккаунт?',
+      footerLink: 'Войти',
     },
     channels: {
       title: 'Каналы',
