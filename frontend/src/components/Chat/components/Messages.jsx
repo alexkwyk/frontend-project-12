@@ -15,7 +15,7 @@ const Messages = () => {
 
   return (
     <>
-      <div className="bg-light mb-4 p-3 small shadow-sm">
+      <div className="bg-light p-3 small shadow-sm">
         <p className="m-0">
           <b>
             #
@@ -31,7 +31,7 @@ const Messages = () => {
         </span>
       </div>
       <div className="px-5 overflow-auto d-flex flex-column-reverse">
-        {messages.map(({ username, body, id }) => (
+        {messages.reverse().map(({ username, body, id }) => (
           <p
             key={id}
             className="m-0"
